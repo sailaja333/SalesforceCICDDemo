@@ -29,6 +29,11 @@ jobs:
           cat package/package.xml         
       - name: 'Static Code Analysis'
         run: sfdx scanner:run --target=force-app --outputfile=results.csv --format=csv > results.csv
+      - name: Archive static code analysis results
+        uses: actions/upload-artifact@v2
+        with:
+          name: static-code-analysis-report
+          path: results.csv
       - name: 'Convert Metadata'
         run: sfdx force:source:convert --manifest=package/package.xml  --outputdir=convert
       - name: 'Run Test on Metadata'
